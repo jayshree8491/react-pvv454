@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
-import './App.css';
 import axios from 'axios';
+import './App.css';
+import { auth } from './firebase';
 
 const NUM_ROWS = 10;
 const ROW_CAPACITY = [7, 7, 7, 7, 7, 7, 7, 7, 7, 3];
@@ -35,10 +35,10 @@ const TrainCoach = () => {
         console.error('Error fetching seats:', error);
       }
     };
-  
+
     fetchSeats();
   }, []);
-  
+
   const [seats, setSeats] = useState(() => {
     const initialSeats = Array(NUM_ROWS).fill().map(() => Array(ROW_CAPACITY.length).fill(false));
     INITIAL_BOOKED_SEATS.forEach(({ row, seatIndex }) => {
@@ -62,7 +62,7 @@ const TrainCoach = () => {
   const handleReservation = async () => {
     const numSeats = selectedSeats.length;
     if (numSeats === 0) return;
-  
+
     try {
       const response = await axios.post('http://localhost:3000/reserve', { seats: selectedSeats });
       console.log(response.data.message);
@@ -71,8 +71,6 @@ const TrainCoach = () => {
       console.error('Error reserving seats:', error);
     }
   };
-          
-  
 
   return (
     <div>
@@ -100,9 +98,20 @@ const TrainCoach = () => {
 };
 
 function App() {
+  const signInWithGoogle = async () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    try {
+      await auth.signInWithPopup(provider);
+      // User is signed in
+    } catch (error) {
+      console.error('Error signing in:', error);
+    }
+  };
+
   return (
     <div className="App">
       <h1>Train Reservation App</h1>
+      <button onClick={signInWithGoogle}>Sign In with Google</button>
       <TrainCoach />
     </div>
   );
