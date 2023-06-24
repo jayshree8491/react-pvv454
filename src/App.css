@@ -1,0 +1,42 @@
+.App {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.coach {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.seat {
+  width: 40px;
+  height: 40px;
+  background-color: lightgreen;
+  border: 1px solid gray;
+  cursor: pointer;
+}
+
+.seat.selected {
+  background-color: lightblue;
+}
+
+.seat.booked {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+.buttons {
+  margin-top: 1rem;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+}
